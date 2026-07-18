@@ -12,13 +12,14 @@ function check(label, got, want) {
   }
 }
 
-const order = ["all", "tell", "auction", "gossip"];
+const order = ["all", "tell", "auction", "gossip", "group"];
 check("index 1 -> all",              tabIdForIndex(order, 1), "all");
 check("index 2 -> tell",             tabIdForIndex(order, 2), "tell");
 check("index 3 -> auction",          tabIdForIndex(order, 3), "auction");
-check("index 4 (last) -> gossip",    tabIdForIndex(order, 4), "gossip");
-check("last via order.length",       tabIdForIndex(order, order.length), "gossip");
-check("index 5 (past end) -> undef", tabIdForIndex(order, 5), undefined);
+check("index 4 -> gossip",           tabIdForIndex(order, 4), "gossip");
+check("index 5 (last) -> group",     tabIdForIndex(order, 5), "group");
+check("last via order.length",       tabIdForIndex(order, order.length), "group");
+check("index 6 (past end) -> undef", tabIdForIndex(order, 6), undefined);
 check("index 0 -> undef",            tabIdForIndex(order, 0), undefined);
 check("non-number -> undef",         tabIdForIndex(order, undefined), undefined);
 check("non-array -> undef",          tabIdForIndex(null, 1), undefined);

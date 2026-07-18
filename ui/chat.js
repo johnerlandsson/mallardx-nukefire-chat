@@ -9,8 +9,8 @@
 // and known ahead of time.
 
 const BUFFER_MAX = 1000;
-const FIXED_TABS = ["all", "tell", "auction", "gossip"];
-const TAB_LABELS = { all: "All", tell: "Tell", auction: "Auction", gossip: "Gossip" };
+const FIXED_TABS = ["all", "tell", "auction", "gossip", "group"];
+const TAB_LABELS = { all: "All", tell: "Tell", auction: "Auction", gossip: "Gossip", group: "Group" };
 
 const buffers = {};
 let activeTab = "all";
@@ -400,6 +400,7 @@ function renderSettings() {
   sourcesEl.appendChild(renderSourceRow("Tell", "tell"));
   sourcesEl.appendChild(renderSourceRow("Auction", "auction"));
   sourcesEl.appendChild(renderSourceRow("Gossip", "gossip"));
+  sourcesEl.appendChild(renderSourceRow("Group", "group"));
 }
 
 // ---------------------------------------------------------------------

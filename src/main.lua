@@ -15,8 +15,8 @@ local HISTORY_KEY    = "chat_history_v1"
 local SOURCES_KEY    = "channel_settings_v1"
 local ACTIVE_TAB_KEY = "active_tab_v1"
 
-local CHANNEL_KEYS = { "tell", "auction", "gossip" }
-local TAB_LABELS   = { tell = "Tell", auction = "Auction", gossip = "Gossip" }
+local CHANNEL_KEYS = { "tell", "auction", "gossip", "group" }
+local TAB_LABELS   = { tell = "Tell", auction = "Auction", gossip = "Gossip", group = "Group" }
 
 local HISTORY_MAX         = 500
 local PERSIST_DEBOUNCE_MS = 5000
@@ -142,7 +142,7 @@ end)
 -- Keyboard tab navigation.
 -- ---------------------------------------------------------------------
 
-for i = 1, 4 do
+for i = 1, 5 do
   mud.command("chat_tab_" .. i, function()
     panel:post("goto_index", { index = i })
   end, { hidden = true })
@@ -236,6 +236,16 @@ end)
 
 -- Gossip: "an Azer guard gossips, 'I saw a room tear...'"
 mud.trigger([==[^[A-Za-z][\w' -]*? gossips, ']==], function(m)
+  if route_line(m.text) then m:gag() end
+end)
+
+-- Outgoing group say: "You group-say, 'hi'"
+mud.trigger([==[^You group-say, ']==], function(m)
+  if route_line(m.text) then m:gag() end
+end)
+
+-- Any [Group]-tagged line: says/joins/leaves/leader-change/etc.
+mud.trigger([==[^\[Group\] ]==], function(m)
   if route_line(m.text) then m:gag() end
 end)
 

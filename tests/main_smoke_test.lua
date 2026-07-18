@@ -74,8 +74,8 @@ local function check(label, got, want)
   end
 end
 
-check("registers 4 triggers",              #calls.triggers, 4)
-check("registers 4 tab commands",          #calls.commands, 4)
+check("registers 6 triggers",              #calls.triggers, 6)
+check("registers 5 tab commands",          #calls.commands, 5)
 check("registers ready handler",           type(calls.panel_messages["ready"]),           "function")
 check("registers settings_update handler", type(calls.panel_messages["settings_update"]), "function")
 check("registers active_tab handler",      type(calls.panel_messages["active_tab"]),      "function")
