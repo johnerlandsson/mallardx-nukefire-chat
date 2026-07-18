@@ -477,3 +477,5 @@ function kickHandshake() {
   readyAttempts = 0;
   sendReady();
 }
+
+kickHandshake();
