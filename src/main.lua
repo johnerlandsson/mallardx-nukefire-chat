@@ -1,7 +1,7 @@
--- NukeFire Chat — captures tell/auction/gossip into a tabbed chat panel.
+-- NukeFire Chat — captures tell/auction/gossip/group into a tabbed chat panel.
 --
 -- Ported from Discworld Chat's architecture, scoped to NukeFire's fixed
--- tell/auction/gossip channels — see
+-- tell/auction/gossip/group channels — see
 -- docs/superpowers/specs/2026-07-18-nukefire-chat-design.md for the design
 -- rationale (plain-text triggers over GMCP, fixed tabs over dynamic
 -- pin+catch-all, gag/sound/notify checkboxes over server-side toggles).
@@ -113,7 +113,7 @@ panel:on_message("ready", function(payload)
   broadcast_settings()
 end)
 
--- Delta shape: { source = { tell = {gag_main?, sound?, notify?}, auction = {...}, gossip = {...} } }
+-- Delta shape: { source = { tell = {gag_main?, sound?, notify?}, auction = {...}, gossip = {...}, group = {...} } }
 panel:on_message("settings_update", function(delta)
   if type(delta) ~= "table" or type(delta.source) ~= "table" then return end
   for _, key in ipairs(CHANNEL_KEYS) do

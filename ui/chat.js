@@ -4,7 +4,7 @@
 // messages from the Lua side via Mallard's panel SDK. Maintains per-tab
 // FIFO ring buffers; renders only the active tab.
 //
-// Tabs: all, tell, auction, gossip — fixed, unlike Discworld Chat's
+// Tabs: all, tell, auction, gossip, group — fixed, unlike Discworld Chat's
 // dynamic pin+catch-all model, since NukeFire's channel set here is small
 // and known ahead of time.
 
@@ -14,7 +14,7 @@ const TAB_LABELS = { all: "All", tell: "Tell", auction: "Auction", gossip: "Goss
 
 const buffers = {};
 let activeTab = "all";
-let settings = { sources: { tell: {}, auction: {}, gossip: {} } };
+let settings = { sources: { tell: {}, auction: {}, gossip: {}, group: {} } };
 let view = "chat"; // "chat" or "settings"
 
 const tabsEl = document.getElementById("tabs");
