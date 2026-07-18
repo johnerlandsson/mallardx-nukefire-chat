@@ -73,6 +73,31 @@ check("gossip: lowercase NPC-styled name ('a ...')",
   classifier.classify("a plague corpse gossips, 'Lovely. A staircase. I was just thinking my day needed more stairs.'"),
   { tab = "gossip", incoming = true })
 
+-- Group
+check("group: outgoing",
+  classifier.classify("You group-say, 'hi'"),
+  { tab = "group", incoming = false })
+
+check("group: outgoing with url",
+  classifier.classify("You group-say, 'Im actually running a new client called Mallard. https://mallard.vnsf.xyz/'"),
+  { tab = "group", incoming = false })
+
+check("group: incoming says",
+  classifier.classify("[Group] Mallard says, 'hi'"),
+  { tab = "group", incoming = true })
+
+check("group: leader event",
+  classifier.classify("[Group] Dilbo becomes leader of the group."),
+  { tab = "group", incoming = true })
+
+check("group: join event",
+  classifier.classify("[Group] Mallard joins the group."),
+  { tab = "group", incoming = true })
+
+check("group: leave event",
+  classifier.classify("[Group] Mallard has left the group."),
+  { tab = "group", incoming = true })
+
 -- Non-events: lines that must NOT be classified as chat.
 check("non-event: empty string", classifier.classify(""), nil)
 check("non-event: nil input", classifier.classify(nil), nil)
@@ -86,6 +111,11 @@ check("non-event: who-list row",
   classifier.classify("[17 Ass] Vect Asdrubael   (nogos) (notell)"), nil)
 check("non-event: prompt line",
   classifier.classify("< 938H 234M 446V (news) (motd) [Lvl 17, EXP to next: 268,073] >"), nil)
+
+check("non-event: similar-but-different bracket tag",
+  classifier.classify("[Grouping] fake"), nil)
+check("non-event: lowercase group tag",
+  classifier.classify("[group] lowercase tag"), nil)
 
 if failures > 0 then
   io.write(string.format("\n%d test(s) failed\n", failures))

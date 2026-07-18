@@ -35,6 +35,20 @@ local function is_incoming_tell(line)
   return line:match("^[A-Za-z][%w '%-]- telepaths to you, '") ~= nil
 end
 
+-- Outgoing group say: "You group-say, 'hi'".
+local function is_outgoing_group(line)
+  return line:match("^You group%-say, '") ~= nil
+end
+
+-- Any [Group]-tagged line: says, joins, leaves, leader changes, and any
+-- future shape not yet observed. NukeFire always tags group output with
+-- the literal "[Group]", never a dynamic per-group name (unlike
+-- Discworld's [Sailors]-style channels), so a prefix catch-all is both
+-- correct and future-proof — no group-name state to track.
+local function is_group_line(line)
+  return line:match("^%[Group%] ") ~= nil
+end
+
 -- Verb-channel lines: "the Auctioneer auctions, '...'", "an Azer guard
 -- gossips, '...'". Speaker can be lowercase-leading (NPC-flavored gossip
 -- messages like "an Azer guard" or "a plague corpse"), so the leading
@@ -55,6 +69,12 @@ function M.classify(line)
   end
   if is_incoming_tell(line) then
     return { tab = "tell", incoming = true }
+  end
+  if is_outgoing_group(line) then
+    return { tab = "group", incoming = false }
+  end
+  if is_group_line(line) then
+    return { tab = "group", incoming = true }
   end
   local verb_tab = match_verb_channel(line)
   if verb_tab then
