@@ -1,0 +1,52 @@
+id = "se.broaty.nukefire-chat"
+name = "NukeFire Chat"
+version = "0.1.0"
+description = "A tabbed chat panel for capturing tells, auction, and gossip on NukeFire."
+language = "lua"
+entry = "src/main.lua"
+mallard_api_version = "1.0"
+minimum_app_version = "0.10.0"
+authors = ["John"]
+license = "MIT"
+
+[permissions]
+notifications = true
+
+[worlds]
+match = ["tdome.nukefire.org:*"]
+
+[panels.chat]
+title              = "Chat"
+entry              = "ui/chat.html"
+default_dock       = "below"
+default_dock_after = "output"
+default_size       = { width = 800, height = 200 }
+
+[[keymaps]]
+name = "chat-tab-nav"
+
+[[keymaps.bindings]]
+combo   = "Ctrl+Shift+1"
+command = "chat_tab_1"
+label   = "Chat: go to tab 1 (All)"
+
+[[keymaps.bindings]]
+combo   = "Ctrl+Shift+2"
+command = "chat_tab_2"
+label   = "Chat: go to tab 2 (Tell)"
+
+[[keymaps.bindings]]
+combo   = "Ctrl+Shift+3"
+command = "chat_tab_3"
+label   = "Chat: go to tab 3 (Auction)"
+
+[[keymaps.bindings]]
+combo   = "Ctrl+Shift+4"
+command = "chat_tab_4"
+label   = "Chat: go to tab 4 (Gossip)"
+
+[settings.tab_keybindings]
+type    = "bool"
+default = true
+label   = "Tab navigation keybindings"
+description = "When on, Ctrl+Shift+1..4 jump to the 1st-4th chat tab. Edit the combos in Settings → Keymaps (layer 'chat-tab-nav'). Turn off to leave your keymap untouched."
