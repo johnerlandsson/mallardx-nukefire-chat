@@ -179,7 +179,17 @@ permission needed.
 ## Known limitations (v1)
 
 - Only tell/auction/gossip are captured; other channels (shout, holler,
-  grats, gsay) are not yet classified and will pass through unmodified.
+  grats, gsay) are not yet classified and will pass through unmodified. As
+  of this writing, none of shout/holler/grats have been observed firing in
+  a real session, so their line shapes are still unconfirmed.
+- `(Skynet)` broadcasts (level-up and remort announcements, e.g. `"(Skynet)
+  Attention: Freejack Mickey has reached level 50 in ..."` and `"(Skynet)
+  Freejack Corvus has Remorted!"`) are deliberately NOT captured. Unlike
+  tell/auction/gossip, Skynet isn't in NukeFire's GMCP `Comm.Channel.List`
+  and has no `no<channel>`-style opt-out — it's a system achievement
+  broadcast, not a chat channel, and was judged out of scope for a chat
+  plugin. Revisit if it turns out to be worth decluttering from main
+  output.
 - No server-side channel toggle integration — gag/sound/notify are
   client-side only, matching Discworld Chat's model. A channel that's noisy
   can still be muted server-side manually via `notell`/`nogossip`/
