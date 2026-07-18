@@ -9,7 +9,7 @@
 // and known ahead of time.
 
 const BUFFER_MAX = 1000;
-const FIXED_TABS = ["all", "tell", "auction", "gossip", "group"];
+const FIXED_TABS = ["all", "tell", "group", "gossip", "auction"];
 const TAB_LABELS = { all: "All", tell: "Tell", auction: "Auction", gossip: "Gossip", group: "Group" };
 
 const buffers = {};

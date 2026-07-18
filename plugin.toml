@@ -38,7 +38,7 @@ label   = "Chat: go to tab 2 (Tell)"
 [[keymaps.bindings]]
 combo   = "Ctrl+Shift+3"
 command = "chat_tab_3"
-label   = "Chat: go to tab 3 (Auction)"
+label   = "Chat: go to tab 3 (Group)"
 
 [[keymaps.bindings]]
 combo   = "Ctrl+Shift+4"
@@ -48,7 +48,7 @@ label   = "Chat: go to tab 4 (Gossip)"
 [[keymaps.bindings]]
 combo   = "Ctrl+Shift+5"
 command = "chat_tab_5"
-label   = "Chat: go to tab 5 (Group)"
+label   = "Chat: go to tab 5 (Auction)"
 
 [settings.tab_keybindings]
 type    = "bool"
