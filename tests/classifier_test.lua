@@ -73,6 +73,14 @@ check("gossip: lowercase NPC-styled name ('a ...')",
   classifier.classify("a plague corpse gossips, 'Lovely. A staircase. I was just thinking my day needed more stairs.'"),
   { tab = "gossip", incoming = true })
 
+check("gossip: outgoing",
+  classifier.classify("You gossip, 'Good thanks! I die a lot. Is that normal?'"),
+  { tab = "gossip", incoming = false })
+
+check("gossip: outgoing with apostrophe",
+  classifier.classify("You gossip, 'Mostly working on my mud client config still. Go to hoard mines and die every once in a while.'"),
+  { tab = "gossip", incoming = false })
+
 -- Group
 check("group: outgoing",
   classifier.classify("You group-say, 'hi'"),

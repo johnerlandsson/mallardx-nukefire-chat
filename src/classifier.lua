@@ -5,10 +5,12 @@
 -- docs/superpowers/specs/2026-07-18-nukefire-chat-design.md for examples.
 --
 -- Verb-channels (auction, gossip, and future ones like shout/holler/grats)
--- all share the shape "<speaker> <verb>, '<message>'" and are always
--- incoming (no player-authored broadcast form observed for these). Add a
--- new entry to VERB_CHANNELS to support another channel once its exact
--- verb is confirmed in-game.
+-- share the incoming shape "<speaker> <verb>, '<message>'". Auction has no
+-- confirmed player-authored broadcast form (only "the Auctioneer" is ever
+-- observed sending it). Gossip does have one — see is_outgoing_gossip
+-- below — so it isn't purely incoming like the others. Add a new entry to
+-- VERB_CHANNELS to support another channel once its exact verb is
+-- confirmed in-game.
 
 local M = {}
 
@@ -16,6 +18,13 @@ local VERB_CHANNELS = {
   { tab = "auction", verb = "auctions" },
   { tab = "gossip",  verb = "gossips" },
 }
+
+-- Outgoing gossip: "You gossip, 'Good thanks!'" — note the singular verb
+-- (no trailing "s"), unlike the incoming "<speaker> gossips, '...'" shape
+-- matched by match_verb_channel below. Confirmed in a real session log.
+local function is_outgoing_gossip(line)
+  return line:match("^You gossip, '") ~= nil
+end
 
 -- Outgoing tell: "You telepath Anne, 'Hello'".
 local function is_outgoing_tell(line)
@@ -72,6 +81,9 @@ function M.classify(line)
   end
   if is_outgoing_group(line) then
     return { tab = "group", incoming = false }
+  end
+  if is_outgoing_gossip(line) then
+    return { tab = "gossip", incoming = false }
   end
   if is_group_line(line) then
     return { tab = "group", incoming = true }

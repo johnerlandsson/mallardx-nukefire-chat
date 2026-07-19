@@ -239,6 +239,11 @@ mud.trigger([==[^[A-Za-z][\w' -]*? gossips, ']==], function(m)
   if route_line(m.text) then m:gag() end
 end)
 
+-- Outgoing gossip: "You gossip, 'Good thanks!'"
+mud.trigger([==[^You gossip, ']==], function(m)
+  if route_line(m.text) then m:gag() end
+end)
+
 -- Outgoing group say: "You group-say, 'hi'"
 mud.trigger([==[^You group-say, ']==], function(m)
   if route_line(m.text) then m:gag() end

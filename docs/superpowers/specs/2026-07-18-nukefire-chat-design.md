@@ -77,14 +77,25 @@ Discworld's `classifier.lua`. Confirmed against real lines from
 | tell | outgoing | `You telepath Anne, 'Hello'` | `^You telepath .+, '` |
 | tell | incoming | `Anne telepaths to you, 'hah hey'` | `^[A-Za-z][\w' -]*? telepaths to you, '` |
 | auction | (always incoming) | `the Auctioneer auctions, 'Opening bid: ...'` | `^[A-Za-z][\w' -]*? auctions, '` |
-| gossip | (always incoming) | `an Azer guard gossips, 'I saw a room tear...'` | `^[A-Za-z][\w' -]*? gossips, '` |
+| gossip | outgoing | `You gossip, 'Good thanks!'` | `^You gossip, '` |
+| gossip | incoming | `an Azer guard gossips, 'I saw a room tear...'` | `^[A-Za-z][\w' -]*? gossips, '` |
 | group | outgoing | `You group-say, 'hi'` | `^You group%-say, '` (Lua) / `^You group-say, '` (Rust) |
 | group | incoming (catch-all) | `[Group] Mallard says, 'hi'` | `^%[Group%] ` (Lua) / `^\[Group\] ` (Rust) |
 
 `classify(line)` returns `{ tab, incoming }` or `nil`. `incoming = false`
-only for the outgoing-tell and outgoing-group shapes — chime/notify never
-fire for the player's own traffic, matching Discworld's rule that a user
-doesn't get chimed for their own messages.
+only for the outgoing-tell, outgoing-group, and outgoing-gossip shapes —
+chime/notify never fire for the player's own traffic, matching Discworld's
+rule that a user doesn't get chimed for their own messages.
+
+**Correction (post-v1):** gossip was originally assumed always-incoming — no
+player-authored broadcast form had been observed. A later session log showed
+NukeFire does echo the player's own gossip, as `You gossip, 'msg'` (singular
+verb, distinct from the incoming `<speaker> gossips, '...'` shape). Without a
+matching pattern, outgoing gossip fell through `classify` entirely and was
+never captured — not misfiled, just silently dropped from history and the
+panel. Fixed by adding `is_outgoing_gossip` (`^You gossip, '`) and a matching
+`mud.trigger` in `main.lua`. Auction's always-incoming assumption still
+holds — no player-authored auction broadcast has been observed.
 
 Note: gossip speakers are not always capitalized (`"an Azer guard"`, `"a
 plague corpse"` — NPC-flavored gossip messages), so the leading-name pattern
